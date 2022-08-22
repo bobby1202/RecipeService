@@ -12,6 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This is the main class for the recipe functionality
+ */
 @Slf4j
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -35,6 +38,12 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RecipeServiceException("Error while fetching recipes:"+ex.getMessage());
         }
     }
+
+    /**
+     * addRecipe
+     * @param recipe
+     * @return
+     */
     @Override
     public Recipe addRecipe(Recipe recipe) {
         try{
