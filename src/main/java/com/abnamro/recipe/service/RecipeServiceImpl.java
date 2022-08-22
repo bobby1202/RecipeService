@@ -1,5 +1,6 @@
 package com.abnamro.recipe.service;
 
+import com.abnamro.recipe.exception.RecipeNotFoundException;
 import com.abnamro.recipe.exception.RecipeServiceException;
 import com.abnamro.recipe.model.Recipe;
 import com.abnamro.recipe.respository.RecipeRepository;
@@ -28,11 +29,19 @@ public class RecipeServiceImpl implements RecipeService {
      * @return
      */
     public List<Recipe> fetchRecipes(final Recipe recipe){
-        return recipeRepository.getFilteredRecipes(recipe);
+        try{
+            return recipeRepository.getFilteredRecipes(recipe);
+        }catch (RecipeServiceException ex){
+            throw new RecipeServiceException("Error while fetching recipes:"+ex.getMessage());
+        }
     }
     @Override
     public Recipe addRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);
+        try{
+            return recipeRepository.save(recipe);
+        }catch (RecipeServiceException ex){
+            throw new RecipeServiceException("Error while adding recipe:"+ex.getMessage());
+        }
     }
 
     /**
@@ -49,7 +58,7 @@ public class RecipeServiceImpl implements RecipeService {
             return recipeRepository.save(recipe);
         }else {
             log.error("Updating Recipe failed :: Recipe Id: {} not found", recipe.getRecipeId());
-            throw new RecipeServiceException("Recipe update failed..");
+            throw new RecipeNotFoundException("Recipe Id:"+recipeId+" not found for update");
         }
     }
 
@@ -65,7 +74,7 @@ public class RecipeServiceImpl implements RecipeService {
             log.debug("Deleted Recipe with ID:{}", recipeId);
         }else {
             log.error("Removing recipe failed :: Recipe Id: {} not found",recipeId);
-            throw new RecipeServiceException("Recipe deletion failed..");
+            throw new RecipeNotFoundException("Recipe Id:"+recipeId+" not found for removing");
         }
     }
 

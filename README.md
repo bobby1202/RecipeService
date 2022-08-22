@@ -72,3 +72,7 @@ Request Body :
 
 Query params:
 - recipeId- **1** 
+
+**H2 Console**:
+
+To Access H2 Console: `http://localhost:7080/h2-console/`

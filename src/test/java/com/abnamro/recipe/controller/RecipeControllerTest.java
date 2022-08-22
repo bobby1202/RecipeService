@@ -69,22 +69,16 @@ class RecipeControllerTest {
                 .andExpect(status().isOk());
     }
 
-/*    @Test
-    @DisplayName("To test fetching recipe endpoint::")
-    void fetchRecipesErrorScenario() throws Exception{
+    @Test
+    @DisplayName("To test fetching recipe endpoint::invalid input")
+    void fetchRecipesErrorScenario1() throws Exception{
 
-        Recipe inputRecipe = Recipe.builder()
-                .dishType(DishType.vegetarian)
-                .noOfServings(4)
-                .ingredients(new Ingredients("potatoes","salmon"))
-                .recipeInstructions("oven")
-                .build();
-        given(recipeService.fetchRecipes(any(Recipe.class))).willThrow(RecipeServiceException.class);
+        given(recipeService.fetchRecipes(any(Recipe.class))).willReturn(new ArrayList<>(List.of(recipe1)));
         mockMvc.perform(get("/recipes/fetchRecipes").contentType(MediaType.APPLICATION_JSON)
-                        .content(inputRecipe.toString())
+                        .content("Invalid Data")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }*/
+                .andExpect(status().is4xxClientError());
+    }
 
     @Test
     @DisplayName("To test adding recipe endpoint")

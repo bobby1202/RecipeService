@@ -1,5 +1,6 @@
 package com.abnamro.recipe.service;
 
+import com.abnamro.recipe.exception.RecipeNotFoundException;
 import com.abnamro.recipe.exception.RecipeServiceException;
 import com.abnamro.recipe.model.DishType;
 import com.abnamro.recipe.model.Ingredients;
@@ -98,8 +99,8 @@ class RecipeServiceImplTest {
     void updateRecipeErrorScenario() {
         recipe1.setRecipeId(recipeId);
         given(recipeRepository.findById(recipeId)).willReturn(Optional.empty());
-        Exception exception = assertThrows(RecipeServiceException.class, ()->{recipeServiceImpl.updateRecipe(recipe1,recipeId);});
-        assertEquals(exception.getMessage(),"Recipe update failed..");
+        Exception exception = assertThrows(RecipeNotFoundException.class, ()->{recipeServiceImpl.updateRecipe(recipe1,recipeId);});
+        assertEquals(exception.getMessage(),"Recipe Id:"+recipeId+" not found for update");
     }
 
     @Test
@@ -115,7 +116,7 @@ class RecipeServiceImplTest {
     @DisplayName("To test updating recipe :: throws Error")
     void removeRecipeErrorScenario() {
         given(recipeRepository.findById(recipeId)).willReturn(Optional.empty());
-        Exception exception = assertThrows(RecipeServiceException.class, ()->{recipeServiceImpl.removeRecipe(recipeId);});
-        assertEquals(exception.getMessage(),"Recipe deletion failed..");
+        Exception exception = assertThrows(RecipeNotFoundException.class, ()->{recipeServiceImpl.removeRecipe(recipeId);});
+        assertEquals(exception.getMessage(),"Recipe Id:"+recipeId+" not found for removing");
     }
 }

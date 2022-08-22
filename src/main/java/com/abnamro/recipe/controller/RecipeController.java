@@ -64,8 +64,9 @@ public class RecipeController {
      * @param recipeId
      */
     @DeleteMapping(value = "/removeRecipe/{recipeId}", produces = MediaType.APPLICATION_JSON)
-    public void removeRecipe(@PathVariable long recipeId){
+    public ResponseEntity<Void> removeRecipe(@PathVariable long recipeId){
         recipeService.removeRecipe(recipeId);
+        return ResponseEntity.ok().build();
     }
 
 }
